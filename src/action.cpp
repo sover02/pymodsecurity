@@ -12,7 +12,8 @@ using modsecurity::RuleMessage;
 
 class pyAction : public Action {
     public:
-    using Action::Action;
+    pyAction(const std::string& action) : Action(action) {}
+    pyAction(const std::string& action, Action::Kind kind) : Action(action, kind) {}
 
     std::string evaluate(const std::string &exp, Transaction *transaction) override {
         PYBIND11_OVERLOAD(std::string, Action, evaluate, exp, transaction);
@@ -20,7 +21,7 @@ class pyAction : public Action {
     bool evaluate(RuleWithActions *rule, Transaction *transaction) override {
         PYBIND11_OVERLOAD(bool, Action, evaluate, rule, transaction);
     }
-    bool evaluate(RuleWithActions *rule, Transaction *transaction, std::shared_ptr<RuleMessage> ruleMessage) override {
+    bool evaluate(RuleWithActions *rule, Transaction *transaction, RuleMessage &ruleMessage) override {
         PYBIND11_OVERLOAD(bool, Action, evaluate, rule, transaction, ruleMessage);
     }
     bool init(std::string *error) override {
@@ -37,9 +38,9 @@ void init_action(py::module &m)
 
     py::class_<Action, pyAction> action(actions_module, "Action");
     action.def(py::init<const std::string&>())
-        .def(py::init<const std::string&, int>())
+        .def(py::init<const std::string&, Action::Kind>())
         .def("evaluate", (bool (Action::*) (RuleWithActions*, Transaction*)) &Action::evaluate)
-        .def("evaluate", (bool (Action::*) (RuleWithActions*, Transaction*, std::shared_ptr<RuleMessage>)) &Action::evaluate)
+        .def("evaluate", (bool (Action::*) (RuleWithActions*, Transaction*, RuleMessage&)) &Action::evaluate)
         .def("init", &Action::init)
         .def("isDisruptive", &Action::isDisruptive)
         .def("set_name_and_payload", &Action::set_name_and_payload)
