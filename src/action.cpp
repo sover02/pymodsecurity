@@ -15,9 +15,6 @@ class pyAction : public Action {
     pyAction(const std::string& action) : Action(action) {}
     pyAction(const std::string& action, Action::Kind kind) : Action(action, kind) {}
 
-    std::string evaluate(const std::string &exp, Transaction *transaction) override {
-        PYBIND11_OVERLOAD(std::string, Action, evaluate, exp, transaction);
-    }
     bool evaluate(RuleWithActions *rule, Transaction *transaction) override {
         PYBIND11_OVERLOAD(bool, Action, evaluate, rule, transaction);
     }
