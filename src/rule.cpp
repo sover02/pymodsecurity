@@ -21,7 +21,7 @@ void init_rule(py::module &m)
 
     rule
         .def("evaluate", (bool (Rule::*) (Transaction*)) &Rule::evaluate)
-        .def("evaluate", (bool (Rule::*) (Transaction*, std::shared_ptr<RuleMessage>)) &Rule::evaluate)
+        .def("evaluate", (bool (Rule::*) (Transaction*, RuleMessage&)) &Rule::evaluate)
         // .def("getFileName", (std::shared_ptr<std::string> (Rule::*) ()) &Rule::getFileName)
         .def("getLineNumber", (int (Rule::*) ()) &Rule::getLineNumber)
         .def("getPhase", (int (Rule::*) ()) &Rule::getPhase)
