@@ -53,7 +53,7 @@ void init_modsecurity(py::module &m)
             }, properties);
         })
         .def("serverLog", [](ModSecurity &ms, char *data, RuleMessage rm) {
-            ms.serverLog((void *) data, std::make_shared<RuleMessage>(rm));
+            ms.serverLog((void *) data, rm);
         })
         // .def("processContentOffset", &ModSecurity::processContentOffset)
         .def_readwrite("m_global_collection", &ModSecurity::m_global_collection)
