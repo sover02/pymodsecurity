@@ -26,5 +26,6 @@ void init_rule_message(py::module &m)
         .def_readwrite("m_message", &RuleMessage::m_message)
         .def_readwrite("m_reference", &RuleMessage::m_reference)
         .def_readwrite("m_severity", &RuleMessage::m_severity)
+        .def_readwrite("m_ruleId", &RuleMessage::m_ruleId)
         ;
 }
